@@ -10,7 +10,7 @@ setuptools.setup(
     description="Inferring pseudotime in scRNA-seq data using an autoencoder with the Fourier basis.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/KChen-lab/Cyclum",
+    url="https://github.com/mokab/p3time",
     license='MIT',
     
     # author details
