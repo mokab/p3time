@@ -11,3 +11,8 @@ git clone https://github.com/mokab/p3time.git
 cd p3time
 pip install .
 ```
+
+## Demo
+
+We provide a [demo](Melanoma.ipynb) with melanoma dataset.
+
