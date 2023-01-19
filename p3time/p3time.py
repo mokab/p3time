@@ -107,12 +107,12 @@ class Decoder(torch.nn.Module):
         return Xhat
 
 class P3timemodel(torch.nn.Module):
-    def __init__(self, size, n_term, device = None) -> None:
+    def __init__(self, size, n_term, middle_width, device = None) -> None:
         super().__init__()
         self.size = size
         self.n_term = n_term
-        self.encoder = Encoder(input_size = size, device = device)
-        self.decoder = Decoder(output_size = size, n_term = n_term, device = device)
+        self.encoder = Encoder(input_size = size, layer1_out=middle_width[0], layer2_out=middle_width[1], device = device)
+        self.decoder = Decoder(output_size = size, n_term = n_term, layer1_out=middle_width[1], layer2_out=middle_width[0], device = device)
 
     def forward(self, XX) -> torch.tensor :
         tt = self.encoder(XX)
@@ -124,7 +124,7 @@ class P3timemodel(torch.nn.Module):
         return tt
 
 class p3time():
-    def __init__(self, size, n_term=1, lr = 1e-3, steps = 3000, batch_size = 32, lambdae = 1e-5, lambdad = 1e-6, lambdap = 1e-6, device = None, verbose=1000) -> None:
+    def __init__(self, size, n_term=1, lr = 1e-3, steps = 3000, batch_size = 32, lambdae = 1e-5, lambdad = 1e-6, lambdap = 1e-6, middle_width=[30, 20], device = None, verbose=1000) -> None:
         self.size = size
         self.n_term = n_term
         self.device = device
@@ -134,10 +134,11 @@ class p3time():
         self.lambdae = lambdae
         self.lambdad = lambdad
         self.lambdap = lambdap
+        self.middle_width = middle_width
         self.batch_size = batch_size
         self.verbose = verbose
         self.losslist = []
-        self.p3timemodel = P3timemodel(size = self.size, n_term = self.n_term, device = self.device)
+        self.p3timemodel = P3timemodel(size = self.size, n_term = self.n_term, middle_width = self.middle_width, device = self.device,)
         
     def fit(self, XX) -> None:
         XX = XX.to(torch.float32)
