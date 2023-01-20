@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 class Fourierbasis(torch.nn.Module):
     def __init__(self, n_term: int, 
                  out_features: int, 
-                 omega0: float = 1.,
+                 omega0: float = math.pi,
                  bias: bool = True, 
                  device=None, dtype=None) -> None:
         factory_kwargs = {'device': device, 'dtype': dtype}
